@@ -1,8 +1,11 @@
-import requests 
+import requests
+from bs4 import BeautifulSoup
 
-r = requests.get('https://medcomfhir.dk/ig/homecareobservation/')
+url = "https://medcomfhir.dk/ig/homecareobservation/"
 
+r = requests.get(url, timeout=20)
+r.raise_for_status()
 
-print(r.status_code)
-print(r.url)
-print(r.text)
+soup = BeautifulSoup(r.text, "html.parser")
+
+print(soup.get_text(separator="\n", strip=True))
